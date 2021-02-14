@@ -1,8 +1,9 @@
 import { Client, Message } from 'discord.js'
 import { config } from 'dotenv'
 import { inject, injectable } from 'inversify'
-import { MessageResponder } from './services/message-responder'
 import { TYPES } from './types'
+import commands from './commands'
+import { findMatchCommand, isCommandDetected } from './utils/command'
 
 config()
 
@@ -10,37 +11,25 @@ config()
 export class Bot {
   private client: Client
   private readonly token: string
-  private messageResponder: MessageResponder
 
-  // private readonly PREFIX: string = '!'
+  private readonly PREFIX: string = '!'
 
-  constructor(
-    @inject(TYPES.Client) client: Client,
-    @inject(TYPES.Token) token: string,
-    @inject(TYPES.MessageResponder) messageResponder: MessageResponder
-  ) {
+  constructor(@inject(TYPES.Client) client: Client, @inject(TYPES.Token) token: string) {
     this.client = client
     this.token = token
-    this.messageResponder = messageResponder
   }
 
   public listen(): Promise<string> {
     this.client.on('message', (message: Message) => {
-      if (message.author.bot) {
-        console.log('Ignoring bot message!')
+      if (message.author.bot) return
+
+      const args: string[] = message.content.substring(this.PREFIX.length).split(' ')
+
+      if (isCommandDetected(commands, args[0])) {
+        const command = findMatchCommand(commands, args[0])
+        command?.value.process(message)
         return
       }
-
-      console.log('Message received! Contents: ', message.content)
-
-      this.messageResponder
-        .handle(message)
-        .then(() => {
-          console.log('Response sent!.')
-        })
-        .catch(() => {
-          console.log('Response failed.')
-        })
     })
     return this.client.login(this.token)
   }
