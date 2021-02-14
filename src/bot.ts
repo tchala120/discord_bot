@@ -19,19 +19,25 @@ export class Bot {
     this.token = token
   }
 
-  public listen(): Promise<string> {
+  public async listen(): Promise<Client> {
     this.client.on('message', (message: Message) => {
       if (message.author.bot) return
 
       const args: string[] = message.content.substring(this.PREFIX.length).split(' ')
 
-      if (isCommandDetected(commands, args[0])) {
-        const command = findMatchCommand(commands, args[0])
-        command?.value.process(message)
+      if (message.content.startsWith('!')) {
+        if (isCommandDetected(commands, args[0]) || !args[0]) {
+          const command = findMatchCommand(commands, args[0] || 'help')
+          command?.value.process(message)
+          return
+        }
+      } else {
         return
       }
     })
-    return this.client.login(this.token)
+
+    await this.client.login(this.token)
+    return this.client
   }
 }
 
