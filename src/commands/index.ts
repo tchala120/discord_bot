@@ -1,7 +1,6 @@
 import { Message } from 'discord.js'
 import { Github } from './github'
 import { Help } from './help'
-import { Play } from './play'
 
 export interface CommandClass {
   process: (message: Message) => void
@@ -20,10 +19,6 @@ const commands: ICommand[] = [
   {
     key: 'github',
     value: new Github(),
-  },
-  {
-    key: 'play',
-    value: new Play(),
   },
 ]
 

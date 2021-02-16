@@ -10,6 +10,7 @@ config()
 @injectable()
 export class Bot {
   private client: Client
+
   private readonly token: string
 
   private readonly PREFIX: string = '!'
@@ -21,22 +22,19 @@ export class Bot {
 
   public async listen(): Promise<Client> {
     this.client.on('message', (message: Message) => {
-      if (message.author.bot) return
+      if (message.author.bot || !message.content.startsWith(this.PREFIX)) return
 
       const args: string[] = message.content.substring(this.PREFIX.length).split(' ')
 
-      if (message.content.startsWith('!')) {
-        if (isCommandDetected(commands, args[0]) || !args[0]) {
-          const command = findMatchCommand(commands, args[0] || 'help')
-          command?.value.process(message)
-          return
-        }
-      } else {
+      if (isCommandDetected(commands, args[0]) || !args[0]) {
+        const command = findMatchCommand(commands, args[0] || 'help')
+        command?.value.process(message)
         return
       }
     })
 
     await this.client.login(this.token)
+
     return this.client
   }
 }
