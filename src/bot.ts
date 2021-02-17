@@ -84,7 +84,7 @@ export class Bot {
     if (command.args) {
       if (args.length === 0)
         return message.reply(
-          `คุณไม่ได้ส่ง argument มา, โปรดลอง \`\`\`${command.name} ${command.usage} |${this.splitAliasesCommand(
+          `คุณไม่ได้ส่ง argument มา, โปรดลอง \`\`\`${PREFIX}${command.name} ${command.usage} ${this.splitAliasesCommand(
             command
           )}\`\`\``
         )
@@ -130,7 +130,8 @@ export class Bot {
   private splitAliasesCommand(command: ICommand): string {
     const { aliases } = command
     let usage = ''
-    aliases.map((alias, index) => (usage += ` ${alias} ${command.usage}${index < aliases.length - 1 ? ' |' : ''}`))
+    if (aliases)
+      aliases.map((alias, index) => (usage += `| ${alias} ${command.usage}${index < aliases.length - 1 ? ' ' : ''}`))
     return usage
   }
 }
