@@ -9,4 +9,5 @@ export const execute = async (message: Message): Promise<Message> => {
 export const name: string = 'rule'
 export const description: string = 'คำสั่งในการสร้างกฎเริ่มต้น.'
 export const cooldown: number = 10
+export const roles: string[] = ['810852554358390814']
 export const icon: string = '📚'
