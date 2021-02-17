@@ -14,10 +14,6 @@ export class Bot {
     this._client = new Client()
   }
 
-  get client(): Client {
-    return this._client
-  }
-
   public async start(): Promise<void> {
     this.init()
     this._commands = this.setCommand()
