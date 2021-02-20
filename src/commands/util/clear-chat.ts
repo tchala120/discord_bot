@@ -1,4 +1,5 @@
 import { BitFieldResolvable, Message, PermissionString } from 'discord.js'
+import { ROLES } from 'src/config'
 
 export const execute = async (message: Message, args: string[]): Promise<void> => {
   const amount: number = parseInt(args[0])
@@ -11,5 +12,5 @@ export const execute = async (message: Message, args: string[]): Promise<void> =
 export const name: string = 'clearchat'
 export const description: string = 'คำสั่งสำหรับลบข้อความทั้งหมด'
 export const icon: string = '💬'
-export const roles: string[] = ['810852554358390814']
+export const roles: string[] = [ROLES.OWNER]
 export const permissions: BitFieldResolvable<PermissionString> = ['MANAGE_MESSAGES']
