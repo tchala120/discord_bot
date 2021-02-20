@@ -17,11 +17,11 @@ yarn dev
 ```
 ## How to use
 
-** Database **
+# Database
 
 - Create JSON file to root path with name is database/profiles.json
 
-** ENV **
+# ENV
 
 Look for .env.example in your project and rename to .env then put your bot token in here.
 
