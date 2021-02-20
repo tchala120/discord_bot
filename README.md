@@ -26,11 +26,11 @@ yarn dev
 
 ## How to use
 
-<h2>Database</h2>
+1. Database
 
 - Create JSON file to root path with name is database/profiles.json
 
-<h2>ENV</h2>
+2. ENV
 
 - Look for .env.example in your project and rename to .env
 - Put your bot token to BOT_TOKEN variable.
