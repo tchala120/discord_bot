@@ -1,6 +1,14 @@
 # Simple Economy Discord Bot
 
-Economy Bot for 
+Economy Bot for check balance, give money and transfer. That's it so simple.
+
+## Commands
+
+- !balance, !bal => check balance.
+- !give <user> <amount> => give money to specific user, ⛔ ADMIN ROLE CAN USE ⛔.
+- !transfer <user> <amount> => transfer money to specific user.
+- !help => show all commands and a little description.
+- !clearchat => clear history message, ⛔ ADMIN ROLE CAN USE ⛔.
 
 ## Clone
 
@@ -15,16 +23,23 @@ yarn
 
 yarn dev
 ```
+
 ## How to use
 
-# Database
+<h2>Database</h2>
 
 - Create JSON file to root path with name is database/profiles.json
 
-# ENV
+<h2>ENV</h2>
 
-Look for .env.example in your project and rename to .env then put your bot token in here.
+- Look for .env.example in your project and rename to .env
+- Put your bot token to BOT_TOKEN variable.
+- Put your owner role id to OWNER variable for check commands that only accept owner role only.
 
 ```
-BOT_TOKEN=<put-your-bot-token-here>
+# Bot Token
+BOT_TOKEN=<put-your-bot-token>
+
+# Roles
+OWNER=<put-your-owner-role-id-here>
 ```
