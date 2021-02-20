@@ -1,14 +1,12 @@
 import { Message } from 'discord.js'
-import path from 'path'
 import { addNewUserToDB, findProfileById, isUserExist, Profile, retreiveProfileDB } from '../../../src/utils/user'
 
 export const execute = async (message: Message): Promise<Message> => {
   const authorId = message.author.id
-  const dbPath = path.join(__dirname, '../../../', 'database/profiles.json')
 
-  const profiles: Profile[] = retreiveProfileDB(dbPath)
+  const profiles: Profile[] = retreiveProfileDB()
 
-  if (!isUserExist(authorId, profiles)) addNewUserToDB(authorId, message.author.tag, 0, dbPath, profiles)
+  if (!isUserExist(authorId, profiles)) addNewUserToDB(authorId, message.author.tag, 0, profiles)
   const coins = !isUserExist(authorId, profiles) ? 0 : findProfileById(authorId, profiles)?.balance
 
   return message.reply(`เงินของคุณมี ${coins} tcoin.`)

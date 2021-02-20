@@ -1,5 +1,4 @@
 import { BitFieldResolvable, Message, PermissionString } from 'discord.js'
-import path from 'path'
 import {
   addNewUserToDB,
   isUserExist,
@@ -13,14 +12,12 @@ export const execute = async (message: Message, args: string[]): Promise<Message
   const amount = Number(args[args.length - 1])
   const target = message.mentions.users.first() || message.author
 
-  const dbPath = path.join(__dirname, '../../../', 'database/profiles.json')
+  let profiles: Profile[] = retreiveProfileDB()
 
-  let profiles: Profile[] = retreiveProfileDB(dbPath)
-
-  if (!isUserExist(target.id, profiles)) addNewUserToDB(target.id, target.tag, amount, dbPath, profiles)
+  if (!isUserExist(target.id, profiles)) addNewUserToDB(target.id, target.tag, amount, profiles)
   else {
     profiles = profiles.map((p) => ({ ...p, balance: p.id === target.id ? p.balance + amount : p.balance }))
-    saveProfilesData(dbPath, toString(profiles))
+    saveProfilesData(toString(profiles))
   }
 
   return message.channel.send(`มอบเหรียญให้กับ <@${target.id}> เป็นจำนวน ${amount} tcoin.`)

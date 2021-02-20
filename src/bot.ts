@@ -15,7 +15,7 @@ export class Bot {
   }
 
   public async start(): Promise<void> {
-    this.init()
+    this.ready()
     this._commands = this.setCommand()
     this._cooldowns = new Collection<string, Collection<string, number>>()
     await this.listen()
@@ -44,26 +44,32 @@ export class Bot {
     await this._client.login(TOKEN)
   }
 
-  private init(): void {
+  private ready(): void {
     this._client.once('ready', () => {
-      console.log('บอท Tconomy ได้ออนไลน์แล้ว')
+      console.log('บอท Tconomy ได้เริ่มออนไลน์แล้ว.')
     })
   }
 
   private setCommand(): Collection<string, ICommand> {
     const commands: Collection<string, ICommand> = new Collection()
     const tsExtensionFile = (file: string) => file.endsWith('.ts')
+    const removeIndexFile = (file: string) => !file.startsWith('index')
 
     const commandFolders = fs.readdirSync('./src/commands').filter((file) => !tsExtensionFile(file))
 
     try {
       for (const folder of commandFolders) {
-        const commandFiles = fs.readdirSync(`./src/commands/${folder}`).filter((file) => tsExtensionFile(file))
-        for (const file of commandFiles) {
+        const commandFiles = fs
+          .readdirSync(`./src/commands/${folder}`)
+          .filter((file) => tsExtensionFile(file) && removeIndexFile(file))
+          .map((f) => f.split('.').slice(0, -1).join('.'))
+        for (let file of commandFiles) {
+          console.log(`คำสั่ง !${file}`)
           const command: ICommand = require(`./commands/${folder}/${file}`)
           commands.set(command.name, command)
         }
       }
+      console.log('\nคำสั่งทั้งหมดติดตั้งเรียบร้อย.')
     } catch (e) {
       console.log('เกิดข้อผิดพลาดระหว่างการโหลดคำสั่ง', e)
     }
