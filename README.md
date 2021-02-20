@@ -26,19 +26,19 @@ yarn dev
 
 ## How to use
 
-1. Database
+Database
 
-> - Create JSON file to root path with name is database/profiles.json
+- Create JSON file to root path with name is database/profiles.json
 
-2. ENV
+ENV
 
-> - Look for .env.example in your project and rename to .env
-> - Put your bot token to BOT_TOKEN variable.
-> - Put your owner role id to OWNER variable for check commands that only accept owner role only.
+- Look for .env.example in your project and rename to .env
+- Put your bot token to BOT_TOKEN variable.
+- Put your owner role id to OWNER variable for check commands that only accept owner role only.
 
-> ```
-> # Bot Token
-> BOT_TOKEN=<put-your-bot-token>
-> # Roles
-> OWNER=<put-your-owner-role-id-here>
-> ```
+```
+# Bot Token
+BOT_TOKEN=<put-your-bot-token>
+# Roles
+OWNER=<put-your-owner-role-id-here>
+```
